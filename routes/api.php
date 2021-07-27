@@ -1,7 +1,18 @@
 <?php
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+
+Route::get('content',function () {
+    return response()->json(
+        [
+            ['content' => 'My first post'],
+            ['content' => 'My second post'],
+            ['content' => 'My n post']
+        ],
+        200
+    );
+});
 
 /*
 |--------------------------------------------------------------------------
