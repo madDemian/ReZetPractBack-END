@@ -12,10 +12,10 @@ class PostController extends Controller
         $data = Post::all();
         return $data;
     }
+
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
             'content' => 'required',
         ]);
 
@@ -23,4 +23,26 @@ class PostController extends Controller
 
         return $post;
     }
+
+    public function destroy($id)
+    {
+        $result = Post::find($id)->delete();
+        return response()->json(['id'=>$id]);
+    }
+
+    public function update(Request $request,Post $post)
+    {
+        $request->validate([
+            'content' => 'required',
+        ]);
+        $post->update([
+            'content' => $request->input('content')
+        ]);
+        return response()->json($post);
+    }
+    public function show(Post $post)
+    {
+        return response()->json($post);
+    }
+
 }

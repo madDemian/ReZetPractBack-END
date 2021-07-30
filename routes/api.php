@@ -4,18 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 
 
-Route::resource('posts', PostController::class);
+Route::apiResource('posts', PostController::class);
 
-Route::get('content',function () {
-    return response()->json(
-        [
-            ['content' => 'My first post'],
-            ['content' => 'My second post'],
-            ['content' => 'My n post']
-        ],
-        200
-    );
-});
 
 /*
 |--------------------------------------------------------------------------
