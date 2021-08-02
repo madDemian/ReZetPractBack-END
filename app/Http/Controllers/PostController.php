@@ -13,21 +13,21 @@ class PostController extends Controller
         return $data;
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Post $post)
     {
         $request->validate([
             'content' => 'required',
         ]);
 
-        $post = Post::create($request->all());
+        $post->create($request->post());
 
         return $post;
     }
 
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        $result = Post::find($id)->delete();
-        return response()->json(['id'=>$id]);
+        $result = $post ->delete();
+        return response()->json($result);
     }
 
     public function update(Request $request,Post $post)
@@ -46,3 +46,4 @@ class PostController extends Controller
     }
 
 }
+
