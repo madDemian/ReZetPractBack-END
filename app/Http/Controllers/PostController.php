@@ -35,9 +35,7 @@ class PostController extends Controller
         $request->validate([
             'content' => 'required',
         ]);
-        $post->update([
-            'content' => $request->input('content')
-        ]);
+        $post->update($request->input());
         return response()->json($post);
     }
     public function show(Post $post)
