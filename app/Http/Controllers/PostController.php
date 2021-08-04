@@ -26,8 +26,8 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        $post ->delete();
-        return response()->json([],204);
+        $post->delete();
+        return response()->noContent(204);
     }
 
     public function update(Request $request,Post $post)
