@@ -9,25 +9,25 @@ class PostController extends Controller
 {
     public function index()
     {
-        $data = Post::all();
-        return $data;
+        $posts = Post::all();
+        return response()->json($posts);
     }
 
-    public function store(Request $request, Post $post)
+    public function store(Request $request)
     {
         $request->validate([
             'content' => 'required',
         ]);
 
-        $post->create($request->post());
+        $post=Post::create($request->post());
 
-        return $post;
+        return response()->json($post);
     }
 
     public function destroy(Post $post)
     {
-        $result = $post ->delete();
-        return response()->json($result);
+        $post ->delete();
+        return response()->json([],204);
     }
 
     public function update(Request $request,Post $post)
