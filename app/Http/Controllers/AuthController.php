@@ -8,10 +8,11 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Testing\Fluent\Concerns\Has;
 
+
 class AuthController extends Controller
 {
     public function register(Request $request){
-        $fields = $request->validate(
+        $request->validate(
             [
                 'first_name'=>'required|string',
                 'last_name'=>'required|string',
@@ -19,13 +20,7 @@ class AuthController extends Controller
                 'email'=>'required|string|unique:users,email',
                 'password'=>'required|string|confirmed',
             ]);
-        $user = User::create([
-            'first_name' => $fields['first_name'],
-            'last_name' => $fields['last_name'],
-            'user_name' => $fields['user_name'],
-            'email' => $fields['email'],
-            'password' => bcrypt($fields['password'])
-        ]);
+        $user = User::create($request->input());
 
         $token = $user->createToken('appToken')->plainTextToken;
 
@@ -44,22 +39,24 @@ class AuthController extends Controller
 
     public function login(Request $request){
         $fields = $request->validate([
-           'email'=>'required|string',
-           'password'=>'required|string'
+           'email' => 'required|string|exists:users',
+           'password' => 'required|string'
         ]);
 
-        $user = User::where('email',$fields['email'])->first();
-        if(!$user || !Hash::check($fields['password'],$user->password)){
+        if(auth()->attempt(['email' => $fields['email'],'password'=>$fields['password']])){
+            $user =auth()->user();
+            $token = $user->createToken('appToken')->plainTextToken;
+
             return response()->json([
-                'message'=>'Not invalid password or email'
-            ]);
+                'user' => $user,
+                'token' => $token
+            ],201);
         }
 
-        $token = $user->createToken('appToken')->plainTextToken;
-
         return response()->json([
-            'user'=>$user,
-            'token'=>$token
-        ],201);
+            'message' => 'Not invalid password or email'
+        ]);
+
+
     }
 }

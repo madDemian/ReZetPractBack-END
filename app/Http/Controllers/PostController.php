@@ -20,7 +20,6 @@ class PostController extends Controller
         ]);
 
         $post=Post::create($request->post());
-
         return response()->json($post);
     }
 
@@ -38,6 +37,7 @@ class PostController extends Controller
         $post->update($request->input());
         return response()->json($post);
     }
+
     public function show(Post $post)
     {
         return response()->json($post);
