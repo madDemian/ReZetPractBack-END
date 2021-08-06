@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -18,8 +19,8 @@ class PostController extends Controller
         $request->validate([
             'content' => 'required',
         ]);
-
-        $post=Post::create($request->post());
+        $user = auth()->user();
+        $post=Post::create(['content'=>$request['content'], 'user_id'=>$user->id]);
         return response()->json($post);
     }
 

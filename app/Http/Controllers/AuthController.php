@@ -43,7 +43,7 @@ class AuthController extends Controller
            'password' => 'required|string'
         ]);
 
-        if(auth()->attempt(['email' => $fields['email'],'password'=>$fields['password']])){
+        if(auth()->attempt($fields)){
             $user =auth()->user();
             $token = $user->createToken('appToken')->plainTextToken;
 
@@ -54,7 +54,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'message' => 'Not invalid password or email'
+            'message' => 'Invalid password or email'
         ]);
 
 
