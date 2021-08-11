@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index(User $user){
+    public function getUserPosts(User $user){
         return response()->json($user->posts()->get());
     }
+
 }

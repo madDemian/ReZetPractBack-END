@@ -7,7 +7,7 @@ use App\Http\Controllers\UserController;
 
 
 Route::get('posts', [PostController::class, "index"]);
-Route::get('/{user}/posts',[UserController::class,'index']);
+Route::get('/{user}/posts',[UserController::class,'getUserPosts']);
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
 
