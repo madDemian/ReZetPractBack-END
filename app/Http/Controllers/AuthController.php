@@ -56,7 +56,8 @@ class AuthController extends Controller
             'message' => 'Invalid password or email'
         ]);
     }
-    public function authMe(){
 
+    public function authMe(Request $request){
+        return response()->json($request->user());
     }
 }
