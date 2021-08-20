@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Database\Seeder;
 
@@ -20,7 +19,7 @@ class UserSeeder extends Seeder
             'last_name' => 'McGregor',
             'user_name' => 'username',
             'email' => 'email@example.com',
-            'password' => Hash::make('qweasdzxc')
+            'password' =>'qweasdzxc'
         ]);
     }
 }

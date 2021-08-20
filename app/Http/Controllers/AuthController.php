@@ -4,24 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Testing\Fluent\Concerns\Has;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+
 
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $request->validate(
-            [
-                'first_name' => 'required|string',
-                'last_name' => 'required|string',
-                'user_name' => 'required|unique:users,user_name',
-                'email' => 'required|string|unique:users,email',
-                'password' => 'required|string|confirmed',
-            ]);
-        $user = User::create($request->input());
+        $user = User::create($request->validated());
         $token = $user->createToken('appToken')->plainTextToken;
         return response()->json([
             'token' => $token
@@ -36,14 +28,9 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $fields = $request->validate([
-            'email' => 'required|string|exists:users',
-            'password' => 'required|string'
-        ]);
-
-        if (auth()->attempt($fields)) {
+        if (auth()->attempt($request->validated())) {
             $user = auth()->user();
             $token = $user->createToken('appToken')->plainTextToken;
             return response()->json([

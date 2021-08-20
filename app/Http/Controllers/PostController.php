@@ -1,27 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Resources\PostResource;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
-use App\Models\User;
-use Illuminate\Http\Request;
+
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'desc')->get();
-        return response()->json($posts);
+        return PostResource::collection(Post::orderBy('created_at', 'desc')->get());
     }
 
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        $request->validate([
-            'content' => 'required',
-        ]);
-        $user = auth()->user();
-        $post=Post::create(['content'=>$request['content'], 'user_id'=>$user->id]);
-        return response()->json($post);
+        $post = auth()->user()->posts()->create($request->validated());
+        return new PostResource($post);
     }
 
     public function destroy(Post $post)
@@ -30,18 +26,15 @@ class PostController extends Controller
         return response()->noContent();
     }
 
-    public function update(Request $request,Post $post)
+    public function update(PostRequest $request,Post $post)
     {
-        $request->validate([
-            'content' => 'required',
-        ]);
-        $post->update($request->input());
-        return response()->json($post);
+        $post->update($request->validated());
+        return new PostResource($post);
     }
 
     public function show(Post $post)
     {
-        return response()->json($post);
+        return new PostResource($post);
     }
 
 }
