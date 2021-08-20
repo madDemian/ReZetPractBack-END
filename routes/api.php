@@ -13,7 +13,7 @@ Route::post('/login',[AuthController::class,'login']);
 
 
 Route::group(['middleware'=>['auth:sanctum']], function (){
-    Route::get('/authMe',[AuthController::class,'authMe']);
+    Route::get('/authMe',[UserController::class,'authMe']);
     Route::get('/logout',[AuthController::class,'logout']);
     Route::apiResource('posts', PostController::class)->except('index');
 });

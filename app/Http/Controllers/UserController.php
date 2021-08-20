@@ -11,4 +11,7 @@ class UserController extends Controller
     public function getUserPosts(User $user){
         return response()->json($user->posts()->get());
     }
+    public function authMe(Request $request){
+        return response()->json($request->user());
+    }
 }

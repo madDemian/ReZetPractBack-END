@@ -24,7 +24,6 @@ class AuthController extends Controller
         $user = User::create($request->input());
         $token = $user->createToken('appToken')->plainTextToken;
         return response()->json([
-            'user' => $user,
             'token' => $token
         ], 201);
     }
@@ -48,7 +47,6 @@ class AuthController extends Controller
             $user = auth()->user();
             $token = $user->createToken('appToken')->plainTextToken;
             return response()->json([
-                'user' => $user,
                 'token' => $token
             ], 201);
         }
@@ -57,7 +55,4 @@ class AuthController extends Controller
         ]);
     }
 
-    public function authMe(Request $request){
-        return response()->json($request->user());
-    }
 }
