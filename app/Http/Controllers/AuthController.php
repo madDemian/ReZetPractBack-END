@@ -8,7 +8,6 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 
 
-
 class AuthController extends Controller
 {
     public function register(RegisterRequest $request)
@@ -30,16 +29,19 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        if (auth()->attempt($request->validated())) {
-            $user = auth()->user();
-            $token = $user->createToken('appToken')->plainTextToken;
+        if (!auth()->attempt($request->validated())) {
             return response()->json([
-                'token' => $token
-            ], 201);
+                'message' => 'Invalid password or email'
+            ]);
         }
+
+        $user = auth()->user();
+        $token = $user->createToken('appToken')->plainTextToken;
         return response()->json([
-            'message' => 'Invalid password or email'
-        ]);
+            'token' => $token
+        ], 201);
+
+
     }
 
 }

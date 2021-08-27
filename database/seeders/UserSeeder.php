@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Seeder;
@@ -14,7 +15,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        User::create([
             'first_name' => 'Conor',
             'last_name' => 'McGregor',
             'user_name' => 'username',
