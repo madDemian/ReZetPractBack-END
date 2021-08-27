@@ -26,7 +26,8 @@ class UserWithPostsResource extends JsonResource
                 'email' => $this->email,
                 'user_name' => $this->user_name
             ],
-            'posts' => PostResource::collection($this->posts)
+
+            'posts' => PostResource::collection($this->posts->sortByDesc('created_at'))
         ];
     }
 
