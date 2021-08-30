@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\Http\Resources\PostResource;
-
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
 
