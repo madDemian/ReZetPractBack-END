@@ -5,18 +5,18 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 
-
-Route::get('posts', [PostController::class, "index"]);
-Route::get('/{user}/posts',[UserController::class,'getUserPosts']);
-Route::post('/register',[AuthController::class,'register']);
-Route::post('/login',[AuthController::class,'login']);
-
-
 Route::group(['middleware'=>['auth:sanctum']], function (){
-    Route::get('/authMe',[UserController::class,'authMe']);
+    Route::get('/me',[UserController::class,'me']);
     Route::get('/logout',[AuthController::class,'logout']);
     Route::apiResource('posts', PostController::class)->except('index');
 });
+
+Route::get('posts', [PostController::class, "index"]);
+Route::get('/{user:user_name}/posts',[UserController::class,'getUserPosts']);
+Route::post('/register',[AuthController::class,'register']);
+Route::post('/login',[AuthController::class,'login']);
+Route::get('/{user:user_name}',[UserController::class,'getUserInfo']);
+
 
 /*
 |--------------------------------------------------------------------------
