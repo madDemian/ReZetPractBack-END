@@ -6,9 +6,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 
 Route::group(['middleware'=>['auth:sanctum']], function (){
+    Route::apiResource('posts', PostController::class)->except('index');
     Route::get('/me',[UserController::class,'me']);
     Route::get('/logout',[AuthController::class,'logout']);
-    Route::apiResource('posts', PostController::class)->except('index');
 });
 
 Route::get('posts', [PostController::class, "index"]);

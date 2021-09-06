@@ -32,7 +32,7 @@ class AuthController extends Controller
         if (!auth()->attempt($request->validated())) {
             return response()->json([
                 'message' => 'Invalid password or email'
-            ]);
+            ],401);
         }
 
         $user = auth()->user();
